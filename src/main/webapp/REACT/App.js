@@ -40,7 +40,7 @@ class LogIn extends Component {
               <NavLink to="/ListItem">API test</NavLink>
             </li>
             <li>
-              <a href="/ca3/documentation/"> Documentation </a>
+              <NavLink to="/redirect">API documentation</NavLink>
             </li>
             <li>
               <form onSubmit={this.login} onChange={this.onChange} >
@@ -55,6 +55,7 @@ class LogIn extends Component {
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route path="/ListItem" component={ListItem} />
+            <Route path="/redirect" component={redirect} />
             <Route component={Error} />
 
 
@@ -71,12 +72,11 @@ class LoggedIn extends Component {
     super(props);
     this.state = { username: "" };
   }
-  componentDidMount() {
-  }
-  render () {
+  componentDidMount() { }
+  render() {
     return (
       <div>
-        <BrowserRouter >
+        <BrowserRouter>
           <ul class="header">
             <li>
               <NavLink to="/" exact>Home</NavLink>
@@ -88,7 +88,7 @@ class LoggedIn extends Component {
               <NavLink to="/contact">Contact</NavLink>
             </li>
             <li>
-              <p class="header">logged in as: {this.props.username}, role: {this.props.role}</p>
+              <p class="header">logged in as: {this.props.username}</p>
             </li>
           </ul>
           <Switch>
@@ -107,31 +107,28 @@ class LoggedIn extends Component {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { loggedIn: false, username: "", role: "" }
+    this.state = { loggedIn: false }
   }
   logout = () => {
     facade.logout();
     this.setState({ loggedIn: false });
   }
-
-
-  login = async (username, pass) => {
-   const res = await facade.login(username, pass);
-      this.setState({ loggedIn: true, username: username, role: res.role });
+  login = (user, pass) => {
+    facade.login(user, pass)
+      .then(res => this.setState({ loggedIn: true, username: user }));
   }
-  
   render() {
     return (
 
       <div>
         {!this.state.loggedIn ? (<LogIn login={this.login} />) :
           (<div>
-            <LoggedIn username={this.state.username} role={this.state.role} />
+            <LoggedIn username={this.state.username} />
             <button onClick={this.logout}>Logout</button>
           </div>)}
 
 
-
+        
       </div>
     )
   }
