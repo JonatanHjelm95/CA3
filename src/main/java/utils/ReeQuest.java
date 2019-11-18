@@ -38,22 +38,30 @@ public class ReeQuest {
     public ReeQuest(String source, String URL) throws MalformedURLException {
         this.source = source;
         this.url = URL;
-        URL obj = new URL(url);
     }
 
     public void addPath(String path) {
         paths.put(path, path);
     }
 
-    public String getRequest(String path, Map<String, String> parameters, String body, Map<String, String> header) throws ReeQuestException {
+    public String getRequest(String path, Map<String, String> parameters, String body, Map<String, String> header, String method) throws ReeQuestException {
         StringBuilder response = new StringBuilder();
         BufferedReader in;
         String inputLine;
         try {
             URL obj = new URL(url + "/" + path + "?" + getParamsString(parameters));
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod(method);
+            con.setRequestProperty("Content-Type", "application/json");
 
-            if (body != null || !body.isEmpty()) {
+            if (header != null && !header.isEmpty()) {
+                for (Map.Entry<String, String> entry : header.entrySet()) {
+                    con.setRequestProperty(entry.getKey(), entry.getValue());
+                }
+            }
+
+            con.setDoOutput(true);
+            if (body != null && !body.isEmpty()) {
                 OutputStream out = con.getOutputStream();
                 OutputStreamWriter outWriter = new OutputStreamWriter(out, "UTF-8");
                 outWriter.write(body);
@@ -61,17 +69,8 @@ public class ReeQuest {
                 outWriter.close();
                 out.close();
             }
-            con.setRequestProperty("Content-Type", "application/json");
 
-            if (header != null || !header.isEmpty()) {
-                for (Map.Entry<String, String> entry : header.entrySet()) {
-                    con.setRequestProperty(entry.getKey(), entry.getValue());
-                }
-            }
-
-            con.setRequestMethod("GET");
-
-            con.setDoOutput(true);
+            con.connect();
 
             int responseCode = con.getResponseCode();
 
