@@ -5,7 +5,7 @@
  */
 package rest;
 
-import DTO.JsonArrayHandler;
+//import DTO.JsonArrayHandler;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -68,68 +68,69 @@ public class GoogleResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String search(@PathParam("query") String query) throws Exception {
-        List<String> jsons = new ArrayList();
-        ExecutorService executor = Executors.newWorkStealingPool();
-        Future<String> usedSearchFuture, ebaySearchFuture;
-
-        Callable<String> usedSearch = () -> {
-            try {
-                ReeQuest req = new ReeQuest("hvad fuck bruger du source til martin??", URL);
-
-                Map<String, String> params = new HashMap();
-                params.put("cx", CX);
-                params.put("key", KEY);
-                params.put("q", query);
-
-                return req.getRequest(PATH, params, "", null, "GET");
-
-            } catch (ReeQuestException | MalformedURLException e) {
-                return e.getMessage();
-            }
-        };
-
-        Callable<String> ebaySearch = () -> {
-            try {
-                ReeQuest req = new ReeQuest("Jeg ved stadig ikke hvad du bruger den her til martin", URL2);
-                String body = "[{\"Text\":\"" + query + "\"}]";
-
-                HashMap<String, String> param1 = new HashMap();
-                param1.put("api-version", "3.0");
-                param1.put("from", "da");
-                param1.put("to", "en");
-
-                HashMap<String, String> headers = new HashMap();
-                headers.put("Content-Type", "application/json;charset=UTF-8");
-                headers.put("Ocp-Apim-Subscription-Key", KEY2);
-
-                String translations = GSON.toJson(req.getRequest(PATH2, param1, body, headers, "POST"));
-
-                String split = translations.split("text")[1].split("to")[0];
-                String trans = split.substring(5, split.length() - 5);
-
-                ReeQuest req2 = new ReeQuest("", URL);
-
-                Map<String, String> param2 = new HashMap();
-                param2.put("cx", CX2);
-                param2.put("key", KEY);
-                param2.put("q", trans);
-
-                return req2.getRequest(PATH, param2, "", null, "GET");
-
-            } catch (ReeQuestException | MalformedURLException e) {
-                return e.getMessage();
-            }
-        };
-
-        usedSearchFuture = executor.submit(usedSearch);
-        ebaySearchFuture = executor.submit(ebaySearch);
-
-        jsons.add(usedSearchFuture.get());
-        jsons.add(ebaySearchFuture.get());
-//executor.shutdown();
-
-        return GSON.toJson(jsons);
-
+//        List<String> jsons = new ArrayList();
+//        ExecutorService executor = Executors.newWorkStealingPool();
+//        Future<String> usedSearchFuture, ebaySearchFuture;
+//
+//        Callable<String> usedSearch = () -> {
+//            try {
+//                ReeQuest req = new ReeQuest("hvad fuck bruger du source til martin??", URL);
+//
+//                Map<String, String> params = new HashMap();
+//                params.put("cx", CX);
+//                params.put("key", KEY);
+//                params.put("q", query);
+//
+//                return req.getRequest(PATH, params, "", null, "GET");
+//
+//            } catch (ReeQuestException | MalformedURLException e) {
+//                return e.getMessage();
+//            }
+//        };
+//
+//        Callable<String> ebaySearch = () -> {
+//            try {
+//                ReeQuest req = new ReeQuest("Jeg ved stadig ikke hvad du bruger den her til martin", URL2);
+//                String body = "[{\"Text\":\"" + query + "\"}]";
+//
+//                HashMap<String, String> param1 = new HashMap();
+//                param1.put("api-version", "3.0");
+//                param1.put("from", "da");
+//                param1.put("to", "en");
+//
+//                HashMap<String, String> headers = new HashMap();
+//                headers.put("Content-Type", "application/json;charset=UTF-8");
+//                headers.put("Ocp-Apim-Subscription-Key", KEY2);
+//
+//                String translations = GSON.toJson(req.getRequest(PATH2, param1, body, headers, "POST"));
+//
+//                String split = translations.split("text")[1].split("to")[0];
+//                String trans = split.substring(5, split.length() - 5);
+//
+//                ReeQuest req2 = new ReeQuest("", URL);
+//
+//                Map<String, String> param2 = new HashMap();
+//                param2.put("cx", CX2);
+//                param2.put("key", KEY);
+//                param2.put("q", trans);
+//
+//                return req2.getRequest(PATH, param2, "", null, "GET");
+//
+//            } catch (ReeQuestException | MalformedURLException e) {
+//                return e.getMessage();
+//            }
+//        };
+//
+//        usedSearchFuture = executor.submit(usedSearch);
+//        ebaySearchFuture = executor.submit(ebaySearch);
+//
+//        jsons.add(usedSearchFuture.get());
+//        jsons.add(ebaySearchFuture.get());
+////executor.shutdown();
+//
+//        return GSON.toJson(jsons);
+//
+        return null;
     }
 
 }
