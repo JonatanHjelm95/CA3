@@ -1,5 +1,6 @@
 /* eslint-disable no-throw-literal */
-const URL = "http://localhost:8080/ca3";
+const URL = "https://jmhdat3.com/CA3";
+//const URL = "http://localhost:8080/ca3";
 function handleHttpErrors(res) {
     if (!res.ok) {
         return Promise.reject({ status: res.status, fullError: res.json() })
