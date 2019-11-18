@@ -40,7 +40,7 @@ class LogIn extends Component {
               <NavLink to="/ListItem">API test</NavLink>
             </li>
             <li>
-              <a href="/ca3/documentation/"> Documentation </a>
+              <a href="/CA3/documentation/"> Documentation </a>
             </li>
             <li>
               <form onSubmit={this.login} onChange={this.onChange} >
@@ -55,6 +55,8 @@ class LogIn extends Component {
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route path="/ListItem" component={ListItem} />
+            <Route path="/CA3/documentation" component={redirect} />
+
             <Route component={Error} />
 
 
@@ -73,7 +75,7 @@ class LoggedIn extends Component {
   }
   componentDidMount() {
   }
-  render () {
+  render() {
     return (
       <div>
         <BrowserRouter >
@@ -116,10 +118,10 @@ class App extends Component {
 
 
   login = async (username, pass) => {
-   const res = await facade.login(username, pass);
-      this.setState({ loggedIn: true, username: username, role: res.role });
+    const res = await facade.login(username, pass);
+    this.setState({ loggedIn: true, username: username, role: res.role });
   }
-  
+
   render() {
     return (
 

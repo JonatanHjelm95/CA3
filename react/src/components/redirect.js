@@ -6,7 +6,7 @@ class redirect extends React.Component {
   }
   renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to='ca3/documentation/' />
+      return <Redirect to='CA3/documentation/' />
     }
   }
   render () {
